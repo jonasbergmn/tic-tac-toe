@@ -1,0 +1,23 @@
+# add all pycache to gitignore
+__pycache__/
+*.py[cod]
+# Ignore Python bytecode files
+*.pyo
+*.pyd
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+# Ignore virtual environment directories
+venv/
+.env
+# Ignore logs
+*.log
+# Ignore coverage reports
+coverage/
+# Ignore build directories
+build/
+dist/
+# Ignore package distribution files
+*.egg
+*.egg-info/
+# Ignore IDE specific files
+.idea/
