@@ -1,0 +1,108 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#game-status {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #555;
+    font-weight: bold;
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(7, 60px); /* 7 columns, each 60px wide */
+    grid-template-rows: repeat(6, 60px);    /* 6 rows, each 60px high */
+    gap: 5px;
+    background-color: #4682B4; /* SteelBlue for the board background */
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 auto 20px auto; /* Center the board */
+    width: fit-content; /* Adjust width to content */
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    background-color: #f0f8ff; /* AliceBlue for empty slots */
+    border-radius: 50%; /* Make cells circular for piece slots */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Indicate clickable cells */
+    position: relative; /* For piece positioning */
+}
+
+.cell.player1 {
+    background-color: #ff6347; /* Tomato red for Player 1 */
+}
+
+.cell.player2 {
+    background-color: #ffd700; /* Gold for Player 2 */
+}
+
+/* Style for the actual pieces that will be added dynamically */
+.piece {
+    width: 50px; /* Slightly smaller than cell */
+    height: 50px; /* Slightly smaller than cell */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: drop 0.5s ease-out forwards; /* Animation for dropping */
+}
+
+.player1-piece {
+    background-color: #ff6347; /* Tomato red */
+}
+
+.player2-piece {
+    background-color: #ffd700; /* Gold */
+}
+
+@keyframes drop {
+    from {
+        transform: translate(-50%, -200%); /* Start from above */
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%); /* End in the center */
+        opacity: 1;
+    }
+}
+
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #28a745; /* Success green */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
