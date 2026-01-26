@@ -8,6 +8,47 @@ body {
     margin: 0;
 }
 
+#lobby-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 500px;
+}
+
+#room-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.room {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #dee2e6;
+    font-size: 1.1em;
+    color: #495057;
+}
+
+.room:hover {
+    background-color: #dee2e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.room.full {
+    background-color: #f8d7da;
+    color: #721c24;
+    cursor: not-allowed;
+    border-color: #f5c6cb;
+}
+
+
 .game-container {
     text-align: center;
     background-color: #fff;
