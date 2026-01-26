@@ -41,7 +41,8 @@ function joinRoom(roomId) {
     lobbyContainer.style.display = 'none';
     gameContainer.style.display = 'block';
 
-    ws = new WebSocket(`ws://${window.location.host}/ws/${roomId}`);
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    ws = new WebSocket(`${protocol}://${window.location.host}/ws/${roomId}`);
 
     ws.onopen = () => {
         statusDisplay.textContent = 'Waiting for opponent...';
