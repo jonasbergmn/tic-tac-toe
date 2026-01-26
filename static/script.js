@@ -58,7 +58,6 @@ function joinRoom(roomId) {
 
         if (gameState.error) {
             alert(gameState.error);
-            showLobby();
             return;
         }
 
