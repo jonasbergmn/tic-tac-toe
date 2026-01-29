@@ -79,9 +79,7 @@ class GameRoom:
         try:
             self.manager.disconnect(websocket)
             if self.manager.active_connections:
-                self.game_active = False
-                self.winner = "Opponent disconnected"
-                self.initialize_game()
+                self.game_active = True
             else:
                 self.initialize_game()
         except ValueError:
