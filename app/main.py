@@ -2,17 +2,17 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from lobby import Lobby
-from config import DEFAULT_ROOMS
+from .lobby import Lobby
+from .config import DEFAULT_ROOMS
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 @app.get("/")
-async def read_index():
-    return FileResponse("static/index.html")
+def read_index():
+    return FileResponse("app/static/index.html")
 
 
 lobby = Lobby()

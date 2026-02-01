@@ -2,7 +2,7 @@ from typing import Any, List, Optional, Tuple, Union, Callable
 
 from fastapi import WebSocket
 
-from config import COLS, ROWS
+from .config import COLS, ROWS
 
 
 class ConnectionManager:

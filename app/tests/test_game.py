@@ -1,5 +1,5 @@
 # type: ignore
-from game import GameRoom
+from app.game import GameRoom
 
 
 def test_make_move():

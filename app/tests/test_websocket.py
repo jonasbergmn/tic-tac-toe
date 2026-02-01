@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from fastapi import WebSocketDisconnect
-from main import app, lobby
+from app.main import app, lobby
 
 client = TestClient(app)
 

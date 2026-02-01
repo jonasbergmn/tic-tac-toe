@@ -1,4 +1,4 @@
-from lobby import Lobby
+from app.lobby import Lobby
 
 
 def test_create_room():

@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Dict, List, Optional
 
-from game import GameRoom
+from .game import GameRoom
 
 
 class Lobby:
