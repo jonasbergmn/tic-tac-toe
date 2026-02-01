@@ -110,7 +110,14 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.new-piece {
     animation: drop 0.5s ease-out forwards; /* Animation for dropping */
+}
+
+.last-piece {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 0, 0.75);
 }
 
 .player1-piece {

@@ -10,6 +10,11 @@ const COLS = 7;
 const ROWS = 6;
 let playerNum = null;
 let ws = null;
+let lastPieceElement = null; // To keep track of the last placed piece element
+
+// Stores the state of pieces currently rendered on the DOM
+// Used to determine if a piece is new or has been removed
+const currentDOMPieces = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
 
 async function fetchRooms() {
     try {
@@ -67,7 +72,7 @@ function joinRoom(roomId) {
             playerInfo.textContent = `You are Player ${playerNum}`;
         }
 
-        renderBoard(gameState);
+        updateBoard(gameState);
 
         if (gameState.winner) {
             if (gameState.winner === playerNum) {
@@ -103,10 +108,8 @@ function showLobby() {
     fetchRooms();
 }
 
-function renderBoard(gameState) {
-    board.innerHTML = '';
-    const gameBoard = gameState.board;
-
+function initializeBoardStructure() {
+    board.innerHTML = ''; // Clear any existing structure
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             const cell = document.createElement('div');
@@ -114,17 +117,60 @@ function renderBoard(gameState) {
             cell.dataset.row = r;
             cell.dataset.col = c;
             cell.addEventListener('click', () => handleCellClick(c));
-
-            if (gameBoard[r][c] === 1) {
-                const piece = document.createElement('div');
-                piece.classList.add('piece', 'player1-piece');
-                cell.appendChild(piece);
-            } else if (gameBoard[r][c] === 2) {
-                const piece = document.createElement('div');
-                piece.classList.add('piece', 'player2-piece');
-                cell.appendChild(piece);
-            }
             board.appendChild(cell);
+        }
+    }
+}
+
+
+function updateBoard(gameState) {
+    const gameBoard = gameState.board;
+
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const cell = board.children[r * COLS + c]; // Get existing cell
+            let piece = cell.querySelector('.piece'); // Check for existing piece
+
+            const playerInState = gameBoard[r][c];
+            const playerInDOM = currentDOMPieces[r][c];
+
+            if (playerInState !== playerInDOM) { // State changed for this cell
+                if (playerInState !== 0) { // A piece should be here (or changed)
+                    if (!piece) { // No piece in DOM, create new one
+                        piece = document.createElement('div');
+                        piece.classList.add('piece');
+                        // Add new-piece class for animation if it's a freshly dropped piece
+                        if (playerInDOM === 0) { // Only animate if it was previously empty
+                            piece.classList.add('new-piece');
+                            setTimeout(() => {
+                                piece.classList.remove('new-piece');
+                            }, 500); // 0.5 seconds, matches CSS animation duration
+
+                            // Highlight this as the last placed piece
+                            if (lastPieceElement) {
+                                lastPieceElement.classList.remove('last-piece');
+                            }
+                            piece.classList.add('last-piece');
+                            lastPieceElement = piece;
+                        }
+                        cell.appendChild(piece);
+                    }
+                    // Update player class for the piece
+                    if (playerInState === 1) {
+                        piece.classList.add('player1-piece');
+                        piece.classList.remove('player2-piece');
+                    } else {
+                        piece.classList.add('player2-piece');
+                        piece.classList.remove('player1-piece');
+                    }
+                } else { // No piece should be here (removed)
+                    if (piece) { // Piece exists in DOM, remove it
+                        cell.removeChild(piece);
+                    }
+                }
+                currentDOMPieces[r][c] = playerInState; // Update DOM state tracking
+            }
+            // No need to re-add event listeners; they are attached once during initializeBoardStructure
         }
     }
 }
@@ -141,6 +187,7 @@ resetButton.addEventListener('click', () => {
     }
 });
 
-// Initial load
+// Initial setup
+initializeBoardStructure();
 fetchRooms();
 setInterval(fetchRooms, 5000); // Refresh rooms every 5 seconds
