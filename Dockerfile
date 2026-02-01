@@ -10,7 +10,7 @@ RUN pip install uv
 COPY pyproject.toml uv.lock ./
 
 # Create venv and install dependencies
-RUN uv venv && uv pip sync
+RUN uv venv && uv sync
 
 # ---- Final stage ----
 FROM python:3.13-slim AS final
