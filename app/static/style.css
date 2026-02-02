@@ -1,3 +1,18 @@
+/* Styling for the GitHub link */
+.github-link {
+    display: block; /* Make it a block element to occupy its own line */
+    margin-top: 15px; /* Add some space above the link */
+    color: #007bff; /* A nice blue color for links */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make the text bold */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.github-link:hover {
+    color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
