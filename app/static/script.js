@@ -113,6 +113,8 @@ function joinRoom(roomId) {
             }
         }
     };
+
+    chatInput.focus();
 }
 
 function showLobby() {
@@ -133,11 +135,15 @@ function initializeBoardStructure() {
             cell.classList.add('cell');
             cell.dataset.row = r;
             cell.dataset.col = c;
-            cell.addEventListener('click', () => handleCellClick(c));
+            cell.addEventListener('click', () => {
+                handleCellClick(c);
+                chatInput.focus();
+            });
             board.appendChild(cell);
         }
     }
 }
+
 
 
 function updateBoard(gameState) {
@@ -193,6 +199,11 @@ function updateBoard(gameState) {
 }
 
 sendChatButton.addEventListener('click', sendMessage);
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
 
 function handleCellClick(col) {
     if (ws) {
