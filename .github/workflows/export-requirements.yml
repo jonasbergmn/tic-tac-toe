@@ -1,37 +1,21 @@
-name: Export Requirements
+name: Remote Deploy
 
 on:
   push:
     branches:
       - master
-      - develop
 
 jobs:
-  export-requirements:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install uv
-        uses: astral-sh/setup-uv@v2
-      
-      - name: Export requirements
-        run: uv export --no-dev --format requirements.txt > requirements.txt
-      
-      - name: Check for changes
-        id: verify_changed_files
-        run: |
-          if git diff --quiet requirements.txt; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-      
-      - name: Commit and push changes
-        if: steps.verify_changed_files.outputs.changed == 'true'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add requirements.txt
-          git commit -m "chore: update requirements.txt"
-          git push
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /${{ secrets.SERVER_USER }}/git/tic-tac-toe
+            git pull origin main
+            docker-compose up -d --build
