@@ -5,6 +5,9 @@ const board = document.getElementById('game-board');
 const statusDisplay = document.getElementById('game-status');
 const playerInfo = document.getElementById('player-info');
 const resetButton = document.getElementById('reset-button');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const sendChatButton = document.getElementById('send-chat-button');
 
 const COLS = 7;
 const ROWS = 6;
@@ -59,7 +62,21 @@ function joinRoom(roomId) {
     };
 
     ws.onmessage = function(event) {
-        const gameState = JSON.parse(event.data);
+
+        const inputData = JSON.parse(event.data);
+        if (inputData.hasOwnProperty("message")) {
+            const chatMessage = inputData["message"];
+            const chatUser = inputData["player"];
+
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${chatUser}: ${chatMessage}`;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; 
+
+            return;
+        }
+
+        const gameState = inputData;
 
         if (gameState.error) {
             alert(gameState.error);
@@ -175,6 +192,8 @@ function updateBoard(gameState) {
     }
 }
 
+sendChatButton.addEventListener('click', sendMessage);
+
 function handleCellClick(col) {
     if (ws) {
         ws.send(JSON.stringify({ col: col }));
@@ -186,6 +205,15 @@ resetButton.addEventListener('click', () => {
         ws.send(JSON.stringify({ action: 'reset' }));
     }
 });
+
+function sendMessage() {
+    const message = chatInput.value.trim();
+
+    if (message && ws) {
+        ws.send(JSON.stringify({ message: message }));
+        chatInput.value = '';
+    }
+}
 
 // Initial setup
 initializeBoardStructure();

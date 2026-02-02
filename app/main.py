@@ -58,6 +58,13 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
             if player_num is None:
                 break
 
+            message = data.get("message")
+            if message is not None:
+                await room.manager.broadcast_text(
+                    {"player": f"Player {player_num}", "message": message}
+                )
+                continue
+
             col = data.get("col")
             if col is not None:
                 success, reason = room.make_move(col, player_num)

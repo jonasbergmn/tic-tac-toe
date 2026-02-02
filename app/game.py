@@ -1,8 +1,12 @@
-from typing import Any, List, Optional, Tuple, Union, Callable
-
+from typing import Any, List, Optional, Tuple, Union, Callable, Dict, TypedDict
 from fastapi import WebSocket
 
 from .config import COLS, ROWS
+
+
+class ChatMessage(TypedDict):
+    player: str
+    message: str
 
 
 class ConnectionManager:
@@ -23,6 +27,11 @@ class ConnectionManager:
         """Sends a message to all connected clients."""
         for connection in self.active_connections:
             await connection.send_json(message)
+
+    async def broadcast_text(self, chat_message: ChatMessage):
+        """Sends a text message to all connected clients."""
+        for connection in self.active_connections:
+            await connection.send_json(chat_message)
 
     async def broadcast_game_state(
         self,
