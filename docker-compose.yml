@@ -1,6 +1,13 @@
 services:
-  app:
+  four-in-a-row:
     build: .
     ports:
       - "8000:8000"
     container_name: four-in-a-row
+    restart: unless-stopped
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
