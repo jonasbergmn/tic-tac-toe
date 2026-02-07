@@ -86,19 +86,21 @@ h1 {
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(7, 60px); /* 7 columns, each 60px wide */
-    grid-template-rows: repeat(6, 60px);    /* 6 rows, each 60px high */
-    gap: 5px;
+    grid-template-columns: repeat(7, 1fr); /* Flexible columns */
+    grid-template-rows: repeat(6, 1fr);    /* Flexible rows */
+    gap: 0.5vw; /* Use viewport width for gap */
     background-color: #4682B4; /* SteelBlue for the board background */
     border-radius: 5px;
-    padding: 10px;
+    padding: 1vw; /* Use viewport width for padding */
     margin: 0 auto 20px auto; /* Center the board */
-    width: fit-content; /* Adjust width to content */
+    width: 90vw; /* Make board width 90% of viewport width */
+    max-width: 450px; /* Cap the max width for larger screens */
+    aspect-ratio: 7 / 6; /* Maintain aspect ratio (7 cols / 6 rows) */
 }
 
 .cell {
-    width: 60px;
-    height: 60px;
+    width: 100%; /* Fill the grid area */
+    height: 100%; /* Fill the grid area */
     background-color: #f0f8ff; /* AliceBlue for empty slots */
     border-radius: 50%; /* Make cells circular for piece slots */
     display: flex;
@@ -106,6 +108,7 @@ h1 {
     align-items: center;
     cursor: pointer; /* Indicate clickable cells */
     position: relative; /* For piece positioning */
+    aspect-ratio: 1; /* Ensure cells remain square */
 }
 
 .cell.player1 {
@@ -118,8 +121,8 @@ h1 {
 
 /* Style for the actual pieces that will be added dynamically */
 .piece {
-    width: 50px; /* Slightly smaller than cell */
-    height: 50px; /* Slightly smaller than cell */
+    width: 80%; /* Make piece slightly smaller than cell */
+    height: 80%; /* Make piece slightly smaller than cell */
     border-radius: 50%;
     position: absolute;
     top: 50%;

@@ -61,7 +61,7 @@ function joinRoom(roomId) {
         playerInfo.textContent = '';
     };
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
 
         const inputData = JSON.parse(event.data);
         if (inputData.hasOwnProperty("message")) {
@@ -71,7 +71,7 @@ function joinRoom(roomId) {
             const messageElement = document.createElement('div');
             messageElement.textContent = `${chatUser}: ${chatMessage}`;
             chatMessages.appendChild(messageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight; 
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             return;
         }
@@ -106,7 +106,7 @@ function joinRoom(roomId) {
                 statusDisplay.textContent = `Player ${gameState.currentPlayer}'s Turn`;
             }
         } else {
-             if (gameState.winner === "Opponent disconnected"){
+            if (gameState.winner === "Opponent disconnected") {
                 statusDisplay.textContent = "Opponent disconnected";
             } else {
                 statusDisplay.textContent = 'Waiting for players...';
@@ -114,8 +114,8 @@ function joinRoom(roomId) {
         }
     };
 
-    chatInput.focus();
-}
+};
+
 
 function showLobby() {
     lobbyContainer.style.display = 'block';
@@ -137,7 +137,6 @@ function initializeBoardStructure() {
             cell.dataset.col = c;
             cell.addEventListener('click', () => {
                 handleCellClick(c);
-                chatInput.focus();
             });
             board.appendChild(cell);
         }
