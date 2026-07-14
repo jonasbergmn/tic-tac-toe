@@ -58,10 +58,10 @@ function renderRoomList(rooms) {
             roomElement.setAttribute('tabindex', '0');
             roomElement.addEventListener('click', () => joinRoom(room.room_id));
             roomElement.addEventListener('keydown', (event) => {
-                if (event.key === ' ') {
-                    event.preventDefault();
-                    joinRoom(room.room_id);
-                } else if (event.key === 'Enter') {
+                if (event.key === ' ' || event.key === 'Enter') {
+                    if (event.key === ' ') {
+                        event.preventDefault();
+                    }
                     joinRoom(room.room_id);
                 }
             });
