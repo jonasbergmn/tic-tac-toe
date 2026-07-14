@@ -408,11 +408,12 @@ button:active {
     border: 1px solid var(--md-outline);
     background: #fff;
     color: var(--md-text);
-    outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 #chat-input:focus {
+    outline: 2px solid rgba(103, 80, 164, 0.3);
+    outline-offset: 2px;
     border-color: rgba(103, 80, 164, 0.45);
     box-shadow: 0 0 0 4px rgba(103, 80, 164, 0.12);
 }
