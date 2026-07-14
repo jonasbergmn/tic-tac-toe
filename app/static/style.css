@@ -417,9 +417,9 @@ button:active {
     box-shadow: 0 0 0 4px rgba(103, 80, 164, 0.12);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
     .app-shell {
-        width: min(100% - 20px, 1120px);
+        width: min(100% - 32px, 1120px);
         padding-top: 20px;
     }
 
