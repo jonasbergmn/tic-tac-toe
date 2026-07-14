@@ -1,174 +1,445 @@
-/* Styling for the GitHub link */
-.github-link {
-    display: block; /* Make it a block element to occupy its own line */
-    margin-top: 15px; /* Add some space above the link */
-    color: #007bff; /* A nice blue color for links */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold; /* Make the text bold */
-    transition: color 0.3s ease; /* Smooth transition for hover effect */
+:root {
+    color-scheme: light;
+    --md-primary: #6750a4;
+    --md-primary-strong: #4f378b;
+    --md-secondary: #625b71;
+    --md-accent: #ffb300;
+    --md-surface: rgba(255, 255, 255, 0.92);
+    --md-surface-strong: #ffffff;
+    --md-surface-muted: #f5efff;
+    --md-background: linear-gradient(135deg, #f8f5ff 0%, #eef4ff 100%);
+    --md-outline: rgba(103, 80, 164, 0.14);
+    --md-text: #1d1b20;
+    --md-text-muted: #625b71;
+    --md-success: #2e7d32;
+    --md-danger: #b3261e;
+    --md-shadow-1: 0 1px 2px rgba(26, 27, 31, 0.08), 0 8px 20px rgba(103, 80, 164, 0.08);
+    --md-shadow-2: 0 12px 24px rgba(26, 27, 31, 0.12), 0 2px 6px rgba(26, 27, 31, 0.08);
+    --md-radius-lg: 28px;
+    --md-radius-md: 20px;
+    --md-radius-sm: 14px;
 }
 
-.github-link:hover {
-    color: #0056b3; /* Darker blue on hover */
-    text-decoration: underline; /* Underline on hover */
+* {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f2f5;
     margin: 0;
+    min-height: 100vh;
+    font-family: "Roboto", sans-serif;
+    background: var(--md-background);
+    color: var(--md-text);
 }
 
-#lobby-container {
-    text-align: center;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 500px;
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at top left, rgba(103, 80, 164, 0.16), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(21, 101, 192, 0.14), transparent 30%);
 }
 
-#room-list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.app-shell {
+    position: relative;
+    z-index: 1;
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 32px 0 48px;
 }
 
-.room {
-    background-color: #e9ecef;
-    padding: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #dee2e6;
-    font-size: 1.1em;
-    color: #495057;
+.surface-card {
+    width: 100%;
+    background: var(--md-surface);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: var(--md-radius-lg);
+    box-shadow: var(--md-shadow-2);
+    backdrop-filter: blur(20px);
 }
 
-.room:hover {
-    background-color: #dee2e6;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.room.full {
-    background-color: #f8d7da;
-    color: #721c24;
-    cursor: not-allowed;
-    border-color: #f5c6cb;
-}
-
-
+#lobby-container,
 .game-container {
-    text-align: center;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+}
+
+.page-header {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.page-header--compact {
+    margin-bottom: 20px;
+}
+
+.eyebrow {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--md-primary);
+}
+
+h1,
+h2 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 20px;
+    font-size: clamp(2rem, 4vw, 2.75rem);
 }
 
-#game-status {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: #555;
-    font-weight: bold;
+h2 {
+    font-size: 1.15rem;
+}
+
+.subtitle {
+    margin: 0;
+    max-width: 48ch;
+    color: var(--md-text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 10px 16px;
+    margin-top: 6px;
+    border-radius: 999px;
+    background: rgba(103, 80, 164, 0.08);
+    color: var(--md-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.github-link:hover {
+    transform: translateY(-1px);
+    background: rgba(103, 80, 164, 0.14);
+    box-shadow: var(--md-shadow-1);
+}
+
+.material-symbols-outlined {
+    font-size: 1.2rem;
+}
+
+.room-list {
+    display: grid;
+    gap: 16px;
+}
+
+.room-list h2 {
+    color: var(--md-text);
+    margin-bottom: 4px;
+}
+
+.room {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 22px;
+    border-radius: var(--md-radius-md);
+    border: 1px solid var(--md-outline);
+    background: var(--md-surface-strong);
+    color: var(--md-text);
+    cursor: pointer;
+    box-shadow: var(--md-shadow-1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.room:hover {
+    transform: translateY(-2px);
+    border-color: rgba(103, 80, 164, 0.3);
+    box-shadow: var(--md-shadow-2);
+}
+
+.room.full {
+    cursor: not-allowed;
+    color: var(--md-danger);
+    background: #fff8f7;
+    border-color: rgba(179, 38, 30, 0.16);
+    box-shadow: none;
+    opacity: 0.9;
+}
+
+.room-label,
+.room-meta {
+    display: block;
+}
+
+.room-label {
+    font-weight: 700;
+}
+
+.room-meta {
+    color: var(--md-text-muted);
+    font-size: 0.95rem;
+}
+
+.room.full .room-meta {
+    color: inherit;
+}
+
+.game-container {
+    display: grid;
+    gap: 24px;
+}
+
+.status-panel {
+    display: grid;
+    gap: 12px;
+}
+
+.status-chip,
+.status-banner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    border-radius: 18px;
+    padding: 14px 18px;
+    background: var(--md-surface-strong);
+    border: 1px solid var(--md-outline);
+    box-shadow: var(--md-shadow-1);
+    text-align: center;
+}
+
+.status-chip:empty {
+    display: none;
+}
+
+.status-chip {
+    width: fit-content;
+    max-width: 100%;
+    justify-self: center;
+    font-weight: 700;
+    color: var(--md-primary);
+    background: rgba(103, 80, 164, 0.08);
+}
+
+.status-banner {
+    color: var(--md-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.board-panel {
+    display: flex;
+    justify-content: center;
 }
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* Flexible columns */
-    grid-template-rows: repeat(6, 1fr);    /* Flexible rows */
-    gap: 0.5vw; /* Use viewport width for gap */
-    background-color: #4682B4; /* SteelBlue for the board background */
-    border-radius: 5px;
-    padding: 1vw; /* Use viewport width for padding */
-    margin: 0 auto 20px auto; /* Center the board */
-    width: 90vw; /* Make board width 90% of viewport width */
-    max-width: 450px; /* Cap the max width for larger screens */
-    aspect-ratio: 7 / 6; /* Maintain aspect ratio (7 cols / 6 rows) */
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: clamp(6px, 1vw, 10px);
+    width: min(100%, 620px);
+    aspect-ratio: 7 / 6;
+    padding: clamp(12px, 2vw, 18px);
+    margin: 0 auto;
+    border-radius: 32px;
+    background:
+        linear-gradient(180deg, #7a63b8 0%, #6750a4 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 20px 35px rgba(71, 52, 115, 0.28);
 }
 
 .cell {
-    width: 100%; /* Fill the grid area */
-    height: 100%; /* Fill the grid area */
-    background-color: #f0f8ff; /* AliceBlue for empty slots */
-    border-radius: 50%; /* Make cells circular for piece slots */
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
-    cursor: pointer; /* Indicate clickable cells */
-    position: relative; /* For piece positioning */
-    aspect-ratio: 1; /* Ensure cells remain square */
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.98), #e8eefb 62%, #d6dff0 100%);
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow:
+        inset 0 6px 10px rgba(113, 124, 148, 0.2),
+        inset 0 -3px 6px rgba(255, 255, 255, 0.65);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.cell.player1 {
-    background-color: #ff6347; /* Tomato red for Player 1 */
+.cell:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 6px 10px rgba(113, 124, 148, 0.2),
+        inset 0 -3px 6px rgba(255, 255, 255, 0.65),
+        0 6px 14px rgba(38, 50, 56, 0.12);
 }
 
-.cell.player2 {
-    background-color: #ffd700; /* Gold for Player 2 */
-}
-
-/* Style for the actual pieces that will be added dynamically */
 .piece {
-    width: 80%; /* Make piece slightly smaller than cell */
-    height: 80%; /* Make piece slightly smaller than cell */
+    width: 82%;
+    height: 82%;
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.28),
+        0 10px 18px rgba(33, 33, 33, 0.22);
 }
 
 .new-piece {
-    animation: drop 0.5s ease-out forwards; /* Animation for dropping */
+    animation: drop 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .last-piece {
-    box-shadow: 0 0 15px 5px rgba(255, 255, 0, 0.75);
+    box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.28),
+        0 0 0 6px rgba(255, 179, 0, 0.26),
+        0 12px 18px rgba(33, 33, 33, 0.22);
 }
 
 .player1-piece {
-    background-color: #ff6347; /* Tomato red */
+    background: linear-gradient(180deg, #ff8a65 0%, #ef5350 100%);
 }
 
 .player2-piece {
-    background-color: #ffd700; /* Gold */
+    background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
 }
 
 @keyframes drop {
     from {
-        transform: translate(-50%, -200%); /* Start from above */
+        transform: translate(-50%, -200%);
         opacity: 0;
     }
     to {
-        transform: translate(-50%, -50%); /* End in the center */
+        transform: translate(-50%, -50%);
         opacity: 1;
     }
 }
 
+.actions-row {
+    display: flex;
+    justify-content: center;
+}
+
+button,
+input {
+    font: inherit;
+}
 
 button {
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #28a745; /* Success green */
     border: none;
-    border-radius: 5px;
+    border-radius: 999px;
+    padding: 13px 22px;
+    background: linear-gradient(180deg, #7d65bc 0%, var(--md-primary) 100%);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.01em;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: var(--md-shadow-1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 button:hover {
-    background-color: #218838;
+    transform: translateY(-1px);
+    box-shadow: var(--md-shadow-2);
+    filter: saturate(1.05);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.chat-panel {
+    display: grid;
+    gap: 16px;
+    padding: 22px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-surface-strong);
+    border: 1px solid var(--md-outline);
+    box-shadow: var(--md-shadow-1);
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--md-primary);
+}
+
+.chat-messages {
+    min-height: 180px;
+    max-height: 260px;
+    overflow-y: auto;
+    display: grid;
+    gap: 10px;
+    padding: 6px 4px 6px 0;
+}
+
+.chat-message {
+    padding: 12px 14px;
+    border-radius: 18px 18px 18px 6px;
+    background: var(--md-surface-muted);
+    color: var(--md-text);
+    line-height: 1.45;
+}
+
+.chat-message strong {
+    color: var(--md-primary);
+}
+
+.chat-input-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+}
+
+#chat-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 18px;
+    border: 1px solid var(--md-outline);
+    background: #fff;
+    color: var(--md-text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#chat-input:focus {
+    border-color: rgba(103, 80, 164, 0.45);
+    box-shadow: 0 0 0 4px rgba(103, 80, 164, 0.12);
+}
+
+@media (max-width: 720px) {
+    .app-shell {
+        width: min(100% - 20px, 1120px);
+        padding-top: 20px;
+    }
+
+    #lobby-container,
+    .game-container {
+        padding: 22px 16px;
+        border-radius: 24px;
+    }
+
+    .room {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .chat-input-row {
+        grid-template-columns: 1fr;
+    }
+
+    button,
+    #chat-input {
+        width: 100%;
+    }
 }

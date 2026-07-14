@@ -34,12 +34,35 @@ function renderRoomList(rooms) {
     roomList.innerHTML = '<h2>Available Rooms</h2>';
     rooms.forEach(room => {
         const roomElement = document.createElement('div');
+        const roomCopy = document.createElement('div');
+        const roomLabel = document.createElement('span');
+        const roomDetails = document.createElement('span');
+        const roomStatus = document.createElement('span');
+
         roomElement.classList.add('room');
-        roomElement.textContent = `Room ${room.room_id} (${room.players}/2 players)`;
+        roomCopy.appendChild(roomLabel);
+        roomCopy.appendChild(roomDetails);
+        roomLabel.classList.add('room-label');
+        roomDetails.classList.add('room-meta');
+        roomStatus.classList.add('room-meta');
+        roomLabel.textContent = `Room ${room.room_id}`;
+        roomDetails.textContent = `${room.players}/2 players connected`;
+        roomStatus.textContent = room.is_full ? 'Full' : 'Join room';
+
+        roomElement.appendChild(roomCopy);
+        roomElement.appendChild(roomStatus);
         if (room.is_full) {
             roomElement.classList.add('full');
         } else {
+            roomElement.setAttribute('role', 'button');
+            roomElement.tabIndex = 0;
             roomElement.addEventListener('click', () => joinRoom(room.room_id));
+            roomElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    joinRoom(room.room_id);
+                }
+            });
         }
         roomList.appendChild(roomElement);
     });
@@ -69,7 +92,14 @@ function joinRoom(roomId) {
             const chatUser = inputData["player"];
 
             const messageElement = document.createElement('div');
-            messageElement.textContent = `${chatUser}: ${chatMessage}`;
+            const playerElement = document.createElement('strong');
+            const messageBreak = document.createElement('br');
+
+            messageElement.classList.add('chat-message');
+            playerElement.textContent = chatUser;
+            messageElement.appendChild(playerElement);
+            messageElement.appendChild(messageBreak);
+            messageElement.append(document.createTextNode(chatMessage));
             chatMessages.appendChild(messageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
