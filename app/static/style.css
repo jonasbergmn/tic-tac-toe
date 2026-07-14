@@ -18,6 +18,7 @@
     --md-radius-lg: 28px;
     --md-radius-md: 20px;
     --md-radius-sm: 14px;
+    --breakpoint-tablet: 768px;
 }
 
 * {
