@@ -34,14 +34,14 @@ function renderRoomList(rooms) {
     roomList.innerHTML = '<h2>Available Rooms</h2>';
     rooms.forEach(room => {
         const roomElement = document.createElement('div');
-        const roomCopy = document.createElement('div');
+        const roomInfo = document.createElement('div');
         const roomLabel = document.createElement('span');
         const roomDetails = document.createElement('span');
         const roomStatus = document.createElement('span');
 
         roomElement.classList.add('room');
-        roomCopy.appendChild(roomLabel);
-        roomCopy.appendChild(roomDetails);
+        roomInfo.appendChild(roomLabel);
+        roomInfo.appendChild(roomDetails);
         roomLabel.classList.add('room-label');
         roomDetails.classList.add('room-meta');
         roomStatus.classList.add('room-meta');
@@ -49,13 +49,13 @@ function renderRoomList(rooms) {
         roomDetails.textContent = `${room.players}/2 players connected`;
         roomStatus.textContent = room.is_full ? 'Full' : 'Join room';
 
-        roomElement.appendChild(roomCopy);
+        roomElement.appendChild(roomInfo);
         roomElement.appendChild(roomStatus);
         if (room.is_full) {
             roomElement.classList.add('full');
         } else {
             roomElement.setAttribute('role', 'button');
-            roomElement.tabIndex = 0;
+            roomElement.setAttribute('tabindex', '0');
             roomElement.addEventListener('click', () => joinRoom(room.room_id));
             roomElement.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
