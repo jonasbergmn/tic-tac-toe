@@ -58,6 +58,7 @@ class GameRoom:
         self.winner: int | str | None = None
         self.draw: bool = False
         self.manager = ConnectionManager()
+        self.player_slots: dict[WebSocket, int] = {}
         self.initialize_game()
 
     def initialize_game(self):
@@ -76,6 +77,12 @@ class GameRoom:
         """Adds a player to the game if there is space."""
         if len(self.manager.active_connections) >= 2:
             return False
+        # Assign the lowest available slot (1 or 2)
+        used_slots = set(self.player_slots.values())
+        for slot in (1, 2):
+            if slot not in used_slots:
+                self.player_slots[websocket] = slot
+                break
         self.manager.add_connection(websocket)
         # When first player joins, reset the game
         if len(self.manager.active_connections) == 1:
@@ -88,20 +95,19 @@ class GameRoom:
     def remove_player(self, websocket: WebSocket):
         """Removes a player from the game and handles disconnection logic."""
         try:
+            self.player_slots.pop(websocket, None)
             self.manager.disconnect(websocket)
             if self.manager.active_connections:
                 self.game_active = True
             else:
+                self.player_slots.clear()
                 self.initialize_game()
         except ValueError:
             pass
 
     def get_player_num(self, websocket: WebSocket) -> int | None:
         """Gets the player number for a given websocket."""
-        try:
-            return self.manager.active_connections.index(websocket) + 1
-        except ValueError:
-            return None
+        return self.player_slots.get(websocket)
 
     def get_state(self, player_num: int) -> dict[str, Any]:
         """Gets the game state from the perspective of a specific player."""
