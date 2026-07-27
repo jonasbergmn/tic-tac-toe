@@ -48,6 +48,9 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
             action = data.get("action")
 
             if action == "reset":
+                if not room.winner and not room.draw:
+                    await websocket.send_json({"error": "Cannot reset: game is not finished."})
+                    continue
                 room.initialize_game()
                 await room.manager.broadcast_game_state(
                     room.get_state, room.get_player_num
