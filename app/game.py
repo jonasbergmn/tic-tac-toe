@@ -1,4 +1,6 @@
-from typing import Any, List, Optional, Tuple, Union, Callable, Dict, TypedDict
+from collections.abc import Callable
+from typing import Any, TypedDict
+
 from fastapi import WebSocket
 
 from .config import COLS, ROWS
@@ -13,7 +15,7 @@ class ConnectionManager:
     """Manages WebSocket connections for a game room."""
 
     def __init__(self):
-        self.active_connections: List[WebSocket] = []
+        self.active_connections: list[WebSocket] = []
 
     def add_connection(self, websocket: WebSocket):
         """Adds a new WebSocket connection."""
@@ -49,11 +51,11 @@ class GameRoom:
 
     def __init__(self, room_id: str):
         self.room_id = room_id
-        self.board: List[List[int]] = []
+        self.board: list[list[int]] = []
         self.current_player: int = 1
         self.game_active: bool = False
         self.game_ready: bool = False
-        self.winner: Optional[Union[int, str]] = None
+        self.winner: int | str | None = None
         self.draw: bool = False
         self.manager = ConnectionManager()
         self.initialize_game()
@@ -94,7 +96,7 @@ class GameRoom:
         except ValueError:
             pass
 
-    def get_player_num(self, websocket: WebSocket) -> Optional[int]:
+    def get_player_num(self, websocket: WebSocket) -> int | None:
         """Gets the player number for a given websocket."""
         try:
             return self.manager.active_connections.index(websocket) + 1
@@ -113,7 +115,7 @@ class GameRoom:
             "playerNum": player_num,
         }
 
-    def make_move(self, col: int, player_num: int) -> Tuple[bool, Optional[str]]:
+    def make_move(self, col: int, player_num: int) -> tuple[bool, str | None]:
         """Attempts to make a move for a player."""
         if not self.game_active:
             return False, "Game is not active."
